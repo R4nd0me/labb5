@@ -1,0 +1,9 @@
+{
+  "name": "tnm115-lab-04-material",
+  "version": "1.0.0",
+  "description": "Artist JSON Data Import to MongoDB data storage system",
+  "author": "Nico Reski",
+  "dependencies": {
+    "mongodb": "6.3.0"
+  }
+}

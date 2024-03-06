@@ -1,0 +1,81 @@
+<!--
+    Filename: input-text-example.html
+    Description: A minimal example to illustrate the functionality of the HTML input element node of type "text",
+                 and how to retrieve the user's entered custom text in JavaScript for further processing/usage.
+    Course Code: TNM115-2024VT
+    Institution: Linköping University
+    
+    Author: Nico Reski
+    Version: 2024-02-11
+-->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="author" content="Nico Reski">
+        <title>HTML Element Node Example: input type text</title>
+
+        <!-- external JavaScript reference -->
+        <script src="scripts.js"></script>
+    </head>
+
+    <body>
+        <h1>HTML Element Node Example: input type text</h1>
+
+        <div>
+            <p>
+                This HTML document outlines a simple HTML and JavaScript example for utilizing the <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input" target="_blank">input</a> element node of type <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/text" target="_blank">input</a>.
+            </p>
+    
+            <p>
+                To examine the JS source code, please have a look into the 'scripts.js' file.
+                Enter some text into the text fields below, and submit them by clicking on the respective button.
+                Please open the 'inspector' and 'console' in your <a href="https://developer.mozilla.org/en-US/docs/Learn/Common_questions/Tools_and_setup/What_are_browser_developer_tools" target="_blank">browser's developer tools</a>
+                to follow the results of executing the scripts.
+            </p>  
+        
+            <ul>
+                <li><b>Firefox</b>: From the menu bar, select Tools &RightArrow; Browser Tools &RightArrow; Web Developer Tools &RightArrow; Console.</li>
+                <li><b>Safari</b>: From the menu bar, select Develop &RightArrow; Show Web Inspector &RightArrow; Console. </li>
+                <li><b>Chrome</b>: From the menu bar, select View &RightArrow; Developer &RightArrow; JavaScript Console.</li>
+                <li><b>Edge</b>: From the menu bar, select Settings and more &RightArrow; More tools &RightArrow; Developer tools.</li>
+            </ul>
+        </div>
+
+        <div>
+            <h2>Example input type text</h2>
+
+            <!-- 
+                For overall documentation specifically on the input HTML element node of type text, including available attributes and their values,
+                please refer to the official MDN web docs: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/text
+
+                For documention of the input HTML element node in general, including all other types that are available,
+                please refer to the official MDN web docs: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input
+            -->
+
+            <p>
+                <label for="game_name">Name of the Game:</label>
+                <input type="text" id="game_name" name="game_name" minlength="1" />
+            </p>
+
+            <p>
+                <label for="game_year">Year of the Game's Release:</label>
+                <input type="text" id="game_year" name="game_year" minlength="4" maxlength="4" placeholder="1998" size="4" />
+            </p>
+
+            <p>
+                <label for="game_developer">Game Developer:</label>
+                <input type="text" id="game_developer" name="game_developer" minlength="1" />
+            </p>
+
+            <p>
+                <label for="game_comment">Comment:</label>
+                <input type="text" id="game_comment" name="game_comment" minlength="0" maxlength="255" placeholder="A comment about the game..." size="40"/>
+            </p>
+
+            <p>
+                <button onclick="submitText()">Demo: Submit Text</button>
+            </p>
+        </div>
+    </body>
+</html>
