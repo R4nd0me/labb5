@@ -39,11 +39,32 @@ async function requestSingle(id) {
         response.json().then((jsonBody) => {
             console.log(jsonBody);
             swagFile = jsonBody.artistsDocuments[0];
+            requestImage(id);
             displayArtists(swagFile);
         })
     }
     else {
         console.log("Error");
+    }
+}
+
+async function requestImage(id) {
+    const response = await fetch(serverUrl + "/image/" + id,{
+        method: "GET",
+        headers:{
+            "Content-Type" : "image/png",
+        },
+        body: null,
+
+    });
+    if (response.ok){
+        console.log("received image");
+        response.blob().then((blobData) => {
+            const imgElement = document.createElement("img");
+            const findElement = document.getElementById("info_text");
+            imgElement.src = URL.createObjectURL(blobData);
+            findElement.appendChild(imgElement);
+        });
     }
 }
 function createButton() {
@@ -70,6 +91,7 @@ function displayArtists(data) {
     const artistVariations = document.createElement("p");
     const groupMembers = document.createElement("p");
     const discog = document.createElement("p");
+    const artistImage = document.createElement("img");
     const divContainer = document.getElementById("info_text");
     divContainer.innerHTML = "";
     artistName.innerHTML = "Name: " + data.name;
@@ -109,4 +131,5 @@ function displayArtists(data) {
         divContainer.appendChild(artistDescription);
     }
     divContainer.appendChild(discog);
+    divContainer.appendChild(artistImage);
 }
