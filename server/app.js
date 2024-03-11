@@ -42,6 +42,10 @@ const server = http.createServer((req, res) => {
                 console.log("image");
                 returnImageRequest(res, pathComponents[2]);
                 break;
+            case "search":
+                console.log("searching");
+                requestTextQuery(res, pathComponents[2]);
+                break;
             default:
                 sendResponse(res, 200, "text/plain", "Default msg");
                 break;
@@ -100,6 +104,7 @@ async function requestSingleArtist(res, id) {
     // query JSON documents
     const findQuery = { _id: id };
     const findAllResult = await dbCollection.find(findQuery).toArray();
+
     console.log("Found Documents Count:", findAllResult.length);
     console.log("sent response");
     // observe: the variable "findAllResult" contains an "array" with all the queried documents;
@@ -134,6 +139,28 @@ function returnImageRequest(res, id) {
             sendResponse(res, 200, "image/png", data);
         }
     });
+}
+
+async function requestTextQuery(res, reqText) {
+    // connect to MongoDB server
+    await dbClient.connect();                                   // (1) establish an active connection to the specified MongoDB server
+    const db = dbClient.db(dbName);                             // (2) select a specified database on the server
+    const dbCollection = db.collection(dbCollectionName);       // (3) select a specified (document) collection in the database
+    const textIndex = await dbCollection.createIndex({ name: "text", description: "text", realname: "text" });
+    console.log("Index result:", textIndex);
+    const textQuery = { $text : { $search: reqText}};
+    const findResult = await dbCollection.find(textQuery).toArray();
+    const jsonResult = { searchResults: findResult };
+    const jsonResultAsString = JSON.stringify(jsonResult);
+    if (findResult.length == 0){
+        console.log("No documents found");
+        sendResponse(res, 404, "text/plain", "Not found in database");
+    }
+    else{
+        console.log("Found documents:", findResult);
+        console.log("Found document count: ", findResult.length);
+        sendResponse(res, 200, "application/json", jsonResultAsString);
+    }
 }
 
 // SENDING RESPONSE // 
