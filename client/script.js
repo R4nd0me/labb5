@@ -22,6 +22,7 @@ async function requestArtistData() {
             console.log(jsonDataFile);
             createButton();
             createSearch();
+            submitArtist();
         })
     }
     else {
@@ -187,4 +188,19 @@ function createSearch() {
         }
     });
     divElement.appendChild(searchBar);
+}
+function submitArtist(){
+    const submitArtist = document.createElement("input");
+    submitArtist.id = "submitArtist";
+    submitArtist.placeholder = "Submit to database...";
+    submitArtist.type = "text";
+    submitArtist.addEventListener("keypress", event =>{
+        if (event.key == "Enter"){
+            event.preventDefault();
+            const inputString = event.target.value;
+            console.log(inputString);
+        }
+    });
+    const divElement = document.getElementById("submitBar");
+    divElement.appendChild(submitArtist);
 }
