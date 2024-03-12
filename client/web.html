@@ -8,7 +8,20 @@
     </head>
     <body>
         <div id = "searchBar"></div>
-        <div id = "submitBar"></div>
+        <div id = "submitBar">
+            <form id="form">
+                <input type="text" id="inputId" placeholder="Id &#42;", value = "", required>
+                <input type="text" id="inputDes" placeholder="Description &#42;", value = "",  required>
+                <input type="text" id="inputDiscog" placeholder="DiscogsUrl &#42;", value = "",  required>
+                <input type="text" id="inputName" placeholder="Name &#42;", value = "",  required>
+                <input type="text" id="inputRef" placeholder="Reference Urls &#42;", value = "",  required>
+                <input type="text" id="inputAlias" placeholder="Aliases", value = "", >
+                <input type="text" id="inputMember" placeholder="Members In Groups", value = "", >
+                <input type="text" id="inputVariation" placeholder="Name Variations", value = "", >
+                <input type="text" id="inputReal" placeholder="Real name", value = "", >
+                <button id="submitToDB", onclick = "submitArtist()">Submit</button>
+              </form>
+        </div>
         <div id = "knappar"></div>
         <div id ="info_text"></div>
     </body>

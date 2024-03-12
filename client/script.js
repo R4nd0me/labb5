@@ -22,7 +22,7 @@ async function requestArtistData() {
             console.log(jsonDataFile);
             createButton();
             createSearch();
-            submitArtist();
+            //submitArtist();
         })
     }
     else {
@@ -100,6 +100,9 @@ async function searchArtist(artistInput) {
         console.log("Error: 404 Not found in Database");
     }
     
+}
+async function sumbitToDB(data){
+
 }
 function createButton() {
     const bodyElement = document.getElementById("knappar");
@@ -189,6 +192,7 @@ function createSearch() {
     });
     divElement.appendChild(searchBar);
 }
+/*
 function submitArtist(){
     const submitArtist = document.createElement("input");
     submitArtist.id = "submitArtist";
@@ -198,9 +202,36 @@ function submitArtist(){
         if (event.key == "Enter"){
             event.preventDefault();
             const inputString = event.target.value;
-            console.log(inputString);
+            artistArray = inputString.split(",");
+            console.log(artistArray);
         }
     });
     const divElement = document.getElementById("submitBar");
     divElement.appendChild(submitArtist);
 }
+*/
+function submitArtist(){
+    let inputArray = [];
+    inputArray.push(document.getElementById("inputId").value);
+    inputArray.push(document.getElementById("inputDes").value);
+    inputArray.push(document.getElementById("inputDiscog").value);
+    inputArray.push(document.getElementById("inputName").value);
+    inputArray.push(document.getElementById("inputRef").value);
+    inputArray.push(document.getElementById("inputAlias").value);
+    inputArray.push(document.getElementById("inputMember").value);
+    inputArray.push(document.getElementById("inputVariation").value);
+    inputArray.push(document.getElementById("inputReal").value);
+
+    console.log(inputArray);
+
+}
+
+function createArtistSubmit(){
+    let divContainer = document.getElementById("submitBar");
+    let formContainer = document.createElement("form");
+
+    let inputId = document.createElement()
+}
+
+
+// 69420, President of US, https://www.discogs.com/artist/5027629-Joe-Biden, Joseph Robinette Biden Jr., https://en.wikipedia.org/wiki/Joe_Biden

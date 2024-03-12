@@ -9,6 +9,7 @@ const serverUrl = "http://" + hostname + ":" + port + "";
 
 const fs = require("fs");
 const path = require("path");
+const { create } = require("node:domain");
 
 // MONGODB SIDE //
 const MongoClient = require("mongodb").MongoClient;
@@ -54,6 +55,10 @@ const server = http.createServer((req, res) => {
     else if (req.method == "OPTIONS") {
         console.log("options");
         sendResponse(res, 204, null, null);
+    }
+    else if (req.method == "POST"){
+        console.log("POST");
+        createArtist(res, pathComponents[2]);
     }
     else {
         console.log("not work");
@@ -161,6 +166,15 @@ async function requestTextQuery(res, reqText) {
         console.log("Found document count: ", findResult.length);
         sendResponse(res, 200, "application/json", jsonResultAsString);
     }
+}
+async function createArtist(res, artistObject) {
+    await dbClient.connect();                                   // (1) establish an active connection to the specified MongoDB server
+    const db = dbClient.db(dbName);                             // (2) select a specified database on the server
+    const dbCollection = db.collection(dbCollectionName);       // (3) select a specified (document) collection in the database
+
+    const insertResult = await dbCollection.insertOne(artistObject);
+    console.log("Inserted Documents", insertResult);
+    sendResponse(res, 200, "application/json", insertResult);
 }
 
 // SENDING RESPONSE // 
