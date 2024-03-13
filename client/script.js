@@ -1,12 +1,13 @@
 
 const serverUrl = "http://127.0.0.1:3000";
-let jsonDataFile;
-let swagFile;
+let jsonDataFile; // All artists
+let swagFile; // Singular artist
 document.addEventListener("DOMContentLoaded", function () {
 
     console.log("HTML DOM tree loaded, ready for manipulation");
-    requestArtistData();
+    requestArtistData(); // auto load all artist data
 });
+
 
 async function requestArtistData() {
     const response = await fetch(serverUrl + "/artist", {
@@ -20,8 +21,8 @@ async function requestArtistData() {
         response.json().then((jsonBody) => {
             jsonDataFile = jsonBody.artistsDocuments;
             console.log(jsonDataFile);
-            createButton();
-            createSearch();
+            createButton(); // create button for each artist
+            createSearch(); // create search button
             //submitArtist();
         })
     }
@@ -29,7 +30,8 @@ async function requestArtistData() {
         console.log("Error");
     }
 }
-async function requestSingle(id) {
+
+async function requestSingle(id) { // Request single artist
     const response = await fetch(serverUrl + "/singleartist/" + id, {
         method: "GET",
         headers: {
@@ -50,7 +52,7 @@ async function requestSingle(id) {
     }
 }
 
-async function requestImage(id) {
+async function requestImage(id) { // Request image
     const response = await fetch(serverUrl + "/image/" + id, {
         method: "GET",
         headers: {
@@ -61,7 +63,7 @@ async function requestImage(id) {
     });
     if (response.ok) {
         console.log("received image");
-        response.blob().then((blobData) => {
+        response.blob().then((blobData) => { // Appendar till info_text
             const imgElement = document.createElement("img");
             const findElement = document.getElementById("info_text");
             imgElement.width = 200;
@@ -72,7 +74,7 @@ async function requestImage(id) {
     }
 }
 
-async function searchArtist(artistInput) {
+async function searchArtist(artistInput) { // Searches artist
     const response = await fetch(serverUrl + "/search/" + artistInput, {
         method: "GET",
         headers: {
@@ -92,7 +94,7 @@ async function searchArtist(artistInput) {
         })
     }
     else {
-        
+        // 
         errorMsg = document.createElement("header");
         errorMsg.innerHTML = "ERROR: Not found in database!";
         document.getElementById("info_text").innerHTML = "";
@@ -102,9 +104,21 @@ async function searchArtist(artistInput) {
     
 }
 async function sumbitToDB(data){
+    const response = await fetch(serverUrl + "/" + data, {
+        method: "POST",
+        headers:{
+            "Content-Type": "application/json",
+        },
+        body:null,
+    });
+    if (response.ok) {
+        response.json().then((artistSubmited) => {
+            console.log(artistSubmited);
+        });
+    }
 
 }
-function createButton() {
+function createButton() { // Creates button
     const bodyElement = document.getElementById("knappar");
     for (let i = 0; i < jsonDataFile.length; i++) {
         let button = document.createElement("button");
@@ -118,7 +132,7 @@ function createButton() {
         bodyElement.appendChild(button);
     }
 }
-function displayArtists(data) {
+function displayArtists(data) { // displays Artist Data when clicked on
     console.log(data);
     const artistName = document.createElement("h1");
     const artistReal = document.createElement("p");
@@ -168,7 +182,7 @@ function displayArtists(data) {
     divContainer.appendChild(discog);
 }
 
-function createSearch() {
+function createSearch() { // Creates Searchbar
     const searchBar = document.createElement("input");
     const divElement = document.getElementById("searchBar");
     searchBar.id = "barInput";
@@ -223,15 +237,9 @@ function submitArtist(){
     inputArray.push(document.getElementById("inputReal").value);
 
     console.log(inputArray);
-
+    sumbitToDB(inputArray);
 }
 
-function createArtistSubmit(){
-    let divContainer = document.getElementById("submitBar");
-    let formContainer = document.createElement("form");
-
-    let inputId = document.createElement()
-}
 
 
 // 69420, President of US, https://www.discogs.com/artist/5027629-Joe-Biden, Joseph Robinette Biden Jr., https://en.wikipedia.org/wiki/Joe_Biden

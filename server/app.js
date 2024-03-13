@@ -58,7 +58,9 @@ const server = http.createServer((req, res) => {
     }
     else if (req.method == "POST"){
         console.log("POST");
-        createArtist(res, pathComponents[2]);
+        console.log(pathComponents);
+        createArtist(res,pathComponents[1]);
+        // createArtist(res, pathComponents[1]);
     }
     else {
         console.log("not work");
