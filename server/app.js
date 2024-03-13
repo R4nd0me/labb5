@@ -173,7 +173,12 @@ async function createArtist(res, artistObject) {
     await dbClient.connect();                                   // (1) establish an active connection to the specified MongoDB server
     const db = dbClient.db(dbName);                             // (2) select a specified database on the server
     const dbCollection = db.collection(dbCollectionName);       // (3) select a specified (document) collection in the database
-
+    artistObject = artistObject[0];
+    console.log(artistObject);
+    param = param.split()
+    const createdArtist = {
+        "_id": artistObject.split[0]
+    }
     const insertResult = await dbCollection.insertOne(artistObject);
     console.log("Inserted Documents", insertResult);
     sendResponse(res, 200, "application/json", insertResult);
