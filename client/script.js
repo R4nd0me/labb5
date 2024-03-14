@@ -103,6 +103,8 @@ async function searchArtist(artistInput) { // Searches artist
     }
 
 }
+
+
 function createButton() { // Creates button
     const bodyElement = document.getElementById("knappar");
     for (let i = 0; i < jsonDataFile.length; i++) {
@@ -127,6 +129,7 @@ function displayArtists(data) { // displays Artist Data when clicked on
     const groupMembers = document.createElement("p");
     const discog = document.createElement("p");
     const divContainer = document.getElementById("info_text");
+    console.log(data);
     divContainer.innerHTML = "";
     artistName.innerHTML = "Name: " + data.name;
     artistAliases.innerHTML = "Aliases: ";
@@ -134,18 +137,18 @@ function displayArtists(data) { // displays Artist Data when clicked on
     discog.innerHTML = "Discog: " + data.discogsUrl;
     divContainer.appendChild(artistName);
 
-    if (data.realname != null) {
+    if (!(data.realname == null || data.realname == "")) {
         artistReal.innerHTML = "Real name: ";
         artistReal.innerHTML += data.realname;
         divContainer.appendChild(artistReal);
     }
-    if (data.aliases != null) {
+    if (!(data.aliases == null || data.aliases == "")) {
         for (let i = 0; i < data.aliases.length; i++) {
             artistAliases.innerHTML += data.aliases[i].name + " ";
         }
         divContainer.appendChild(artistAliases);
     }
-    if (data.nameVariations != null) {
+    if (!(data.nameVariations != null || data.nameVariations != "")) {
         for (let i = 0; i < data.nameVariations.length; i++) {
             artistVariations.innerHTML += data.nameVariations[i] + " ";
         }
@@ -209,23 +212,6 @@ function submitArtist(){
     divElement.appendChild(submitArtist);
 }
 */
-function submitArtist() {
-    let inputArray = [];
-    inputArray.push(document.getElementById("inputId").value);
-    inputArray.push(document.getElementById("inputDes").value);
-    inputArray.push(document.getElementById("inputDiscog").value);
-    inputArray.push(document.getElementById("inputName").value);
-    inputArray.push(document.getElementById("inputRef").value);
-    inputArray.push(document.getElementById("inputAlias").value);
-    inputArray.push(document.getElementById("inputMember").value);
-    inputArray.push(document.getElementById("inputVariation").value);
-    inputArray.push(document.getElementById("inputReal").value);
-
-
-    console.log(inputArray);
-    submitToDB(inputArray);
-}
-
 async function submitToDB(data) {
     try {
         const response = await fetch(serverUrl + "/postArtist", {
@@ -236,15 +222,29 @@ async function submitToDB(data) {
             body: JSON.stringify(data),
         });
         if (response.ok) {
-            response.json().then((artistSubmited) => {
-                console.log(artistSubmited);
-            });
+            console.log("artist submitted");
         }
     }
     catch (e) {
         console.log(e);
     }
 
+}
+function submitArtist() {
+    artistJson = {
+        "_id": Number(document.getElementById("inputId").value),
+        "discogsUrl" : document.getElementById("inputDiscog").value,
+        "name":document.getElementById("inputName").value,
+        "realname":document.getElementById("inputReal").value,
+        "description":document.getElementById("inputDes").value,
+        "nameVariations":document.getElementById("inputVariation").value,
+        "aliases":document.getElementById("inputAlias").value,
+        "membersInGroups":document.getElementById("inputMember").value,
+        "referenceUrls":document.getElementById("inputRef").value,
+    };
+
+    console.log(artistJson);
+    submitToDB(artistJson);
 }
 
 

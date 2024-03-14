@@ -57,9 +57,11 @@ const server = http.createServer((req, res) => {
         sendResponse(res, 204, null, null);
     }
     else if (req.method == "POST"){
-
         console.log("POST");
         console.log(pathComponents);
+        if (pathComponents[1] == "postArtist"){
+            createArtist(res, req);
+        }
         //createArtist(res,pathComponents[1]);
         // createArtist(res, pathComponents[1]);
     }
@@ -170,19 +172,32 @@ async function requestTextQuery(res, reqText) {
         sendResponse(res, 200, "application/json", jsonResultAsString);
     }
 }
-async function createArtist(res, artistObject) {
+async function createArtist(res, req) {
     await dbClient.connect();                                   // (1) establish an active connection to the specified MongoDB server
     const db = dbClient.db(dbName);                             // (2) select a specified database on the server
     const dbCollection = db.collection(dbCollectionName);       // (3) select a specified (document) collection in the database
-    artistObject = artistObject[0];
-    console.log(artistObject);
-    param = param.split()
-    const createdArtist = {
-        "_id": artistObject.split[0]
-    }
-    const insertResult = await dbCollection.insertOne(artistObject);
-    console.log("Inserted Documents", insertResult);
-    sendResponse(res, 200, "application/json", insertResult);
+   const bodyChunks = [];
+    req.on("error", (err) => {
+        console.log("ERROR HERE AT line 180");
+        sendResponse(res, 500, null, null);
+    });
+
+    req.on("data", (chunk) =>{
+        bodyChunks.push(chunk)
+    });
+
+    req.on("end", async () => {
+        const msgBody = Buffer.concat(bodyChunks).toString();
+        try {
+        await dbCollection.insertOne(JSON.parse(msgBody));
+        sendResponse(res, 200, null, null);
+        }
+        catch (err){
+            console.log("Already exists in DB");
+            sendResponse(res, 500, "application/json", err);
+        }
+    });
+
 }
 
 // SENDING RESPONSE // 
