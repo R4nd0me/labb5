@@ -101,21 +101,6 @@ async function searchArtist(artistInput) { // Searches artist
         document.getElementById("info_text").appendChild(errorMsg);
         console.log("Error: 404 Not found in Database");
     }
-    
-}
-async function sumbitToDB(data){
-    const response = await fetch(serverUrl + "/" + data, {
-        method: "POST",
-        headers:{
-            "Content-Type": "application/json",
-        },
-        body:null,
-    });
-    if (response.ok) {
-        response.json().then((artistSubmited) => {
-            console.log(artistSubmited);
-        });
-    }
 
 }
 function createButton() { // Creates button
@@ -224,7 +209,7 @@ function submitArtist(){
     divElement.appendChild(submitArtist);
 }
 */
-function submitArtist(){
+function submitArtist() {
     let inputArray = [];
     inputArray.push(document.getElementById("inputId").value);
     inputArray.push(document.getElementById("inputDes").value);
@@ -236,8 +221,30 @@ function submitArtist(){
     inputArray.push(document.getElementById("inputVariation").value);
     inputArray.push(document.getElementById("inputReal").value);
 
+
     console.log(inputArray);
-    sumbitToDB(inputArray);
+    submitToDB(inputArray);
+}
+
+async function submitToDB(data) {
+    try {
+        const response = await fetch(serverUrl + "/postArtist", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+        });
+        if (response.ok) {
+            response.json().then((artistSubmited) => {
+                console.log(artistSubmited);
+            });
+        }
+    }
+    catch (e) {
+        console.log(e);
+    }
+
 }
 
 

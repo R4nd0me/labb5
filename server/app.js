@@ -57,9 +57,10 @@ const server = http.createServer((req, res) => {
         sendResponse(res, 204, null, null);
     }
     else if (req.method == "POST"){
+
         console.log("POST");
         console.log(pathComponents);
-        createArtist(res,pathComponents[1]);
+        //createArtist(res,pathComponents[1]);
         // createArtist(res, pathComponents[1]);
     }
     else {
